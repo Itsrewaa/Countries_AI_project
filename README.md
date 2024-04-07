@@ -5,3 +5,5 @@ This project is a simple example of Expert system that was built with Prolog lan
 how to built Decision tree
 how to assign characteristics for each variable 
 how to use the characteristics to ask a questions
+
+#some example of the output
