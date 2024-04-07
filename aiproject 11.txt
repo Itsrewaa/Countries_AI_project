@@ -1,0 +1,176 @@
+/* (Guess the Country identification game). */
+/* TO START RUN (go.) */
+/* User Interface - Queries */
+
+go :-
+    write('Welcome to the guess the country game!'),
+    nl,
+    write('By answaring the question I as a "Little Mind Reader" going to guess the country'),
+    nl,
+    nl,
+    write('**STARTING NOW**'),
+    nl,nl,
+hypothesize(What_is_the_Country),
+      write('I guess the Country is:'),
+      write(What_is_the_Country),
+      nl,
+      undo.
+
+/* Hypotheses to be tested */
+hypothesize('America')   :- america, !.
+hypothesize('New_Zealand')   :- new_zealand, !.
+hypothesize('Germany')   :- germany, !.
+hypothesize('Italy')   :- italy, !.
+hypothesize('Brazil')  :- brazil, !.
+hypothesize('Russia') :- russia, !.
+hypothesize('Egypt')   :- egypt, !.
+hypothesize('Nigeria')  :- nigeria, !.
+hypothesize('China') :- china, !.  
+hypothesize('France')   :- france, !.
+hypothesize('Japan')  :- japan, !.
+hypothesize('United_Arab_Emirates') :- united_arab_emirates, !.  
+hypothesize(unknown).             /* No diagnosis */
+
+/* Country identification rules */
+america :- q_america.
+new_zealand :- q_New_Zealand.
+germany :- q_Germany.
+italy :- q_Italy.
+brazil :- q_Brazil.
+russia :- q_Russia.
+egypt :- q_Egypt.
+nigeria :- q_Nigeria.
+china :- q_China.
+france :- q_France.
+japan :- q_Japan.
+united_arab_emirates :- q_United_Arab_Emirates.
+
+/* Classification rules */
+q_america :- 
+    verify('Is the country located in North/South America?'),
+    verify('Does this country contains 50 states?'), 
+    verify('Are there skyscrapers in this country?'), 
+    verify('Is the Statue of Liberty located in one of its cities?'), !.
+
+
+q_New_Zealand :- 
+    verify('Is the country located in Oceania?'),
+    verify('Is it a safe town?'),
+    verify('Is it considered a country famous for its nature?'),  
+    verify('Arethey speak Māori Language?'), 
+    verify('Is it called Land of the Long White Cloud?'), !.
+
+
+q_Germany :- 
+    verify('Is the country located in Europe?'),
+    verify('Is it offering a good work-life balance?'), 
+    verify('Is the currency euro? '),    
+    verify('Are they speak German?'),
+    verify('Is Brandenburg part of this country?'), !.
+
+
+q_Italy :- 
+    verify('Is the country located in Europe?'),
+    verify('Is it famous for its cuisine, including dishes like pizza and pasta?'), 
+    verify('Is it known for its leaning tower?'), 
+    verify('Is its capital city Rome?'), !.
+
+
+q_Brazil :- 
+    verify('Is the country located in South America?'), 
+    verify('Is the system of government in this country republican?'), 
+    verify('Is it the largest country in South America?'), 
+    verify('Is it home to the Amazon Rainforest?'), 
+    verify('Is it famous for its iconic landmark, Christ the Redeemer statue in Rio de Janeiro?'), !.
+
+
+q_Russia :- 
+    verify('Is the country located in Asia?'), 
+    verify('Is the system of government in this country republican?'), 
+    verify('Is it the largest country in the world by land area?'), 
+    verify('Is the country known for its iconic matryoshka dolls?'), 
+    verify('Is it associated with the iconic Kremlin?'),  !.
+
+
+q_Egypt :- 
+    verify('Is the country located in Africa?'), 
+    verify('Is it an Arab country?'), 
+    verify('Is the system of government republican?'), 
+    verify('Is it an agricultural country?'), 
+    verify('Is it one of the largest Arab countries in terms of population?'),
+    verify('Is it a country overlooking the Mediterranean Sea?'),
+    verify('Are there pyramids there?'), !.
+
+
+q_Nigeria :- 
+    verify('Is the country located in Africa?'), 
+    verify('Is the system of government republican?'), 
+    verify('Is it an agricultural country?'), 
+    verify('Is it one of the most populated countries in Africa?'), 
+    verify('Is it one of the largest African countries in oil exports?'),
+    verify('Is it a bi-religious country?'),
+    verify('Is its capital city Abuja?'), !.
+
+
+q_China :- 
+    verify('Is the country located in Asia?'), 
+    verify('Is it one of the most populated countries in the world?'), 
+    verify('Is it one of the largest exporting countries in the world?'), 
+    verify('Is it one of the largest countries in terms of patents?'), 
+    verify('Is it one of the largest economies in the world?'),
+    verify('Is it one of the largest consumers of petroleum products in the world?'),
+    verify('Is there one of the Seven Wonders of the World there?'),
+    verify('Is there the Great Wall of China?'),!.
+
+
+q_France :- 
+    verify('Is the country located in Europe?'), 
+    verify('Is the country flag made of three colors?'), 
+    verify('Is it a republican state and a parliamentary democracy country?'), 
+    verify('Is the official language in this country French?'), 
+    verify('Is this country famous for the Louvre Museum and Mona Lisa painting?'),
+    verify('Is it known for its Eiffel Tower in Paris?'),!.
+
+
+q_Japan :- 
+    verify('Is the country located in Asia?'), 
+    verify('Is it located in East Asia?'), 
+    verify('Is the country official language Japanese?'), 
+    verify('Did this country participate in World War?'), 
+    verify('Is the capital of this country Tokyo?'),!.
+
+
+q_United_Arab_Emirates :- 
+    verify('Is the country located in Asia?'), 
+    verify('Is it located in the Middle East of Asia?'), 
+    verify('Is this country a monarchy?'), 
+    verify('Is it one of the world\'s largest oil producers?'), 
+    verify('Is this country formed from a federation of seven emirates?'), 
+    verify('Is there the world\'s highest tower, Burj Khalifa?'),!.
+
+
+/* How to ask questions */
+ask(Question) :- 
+    write(Question),
+    read(Response),
+    nl,
+    ( (Response == yes ; Response == y)
+      ->
+       assert(yes(Question)) ;
+       assert(no(Question)), fail).
+
+:- dynamic yes/1, no/1. /* In Prolog, a procedure is either static or dynamic. A static procedure is one whose facts/rules are predefined at the start of execution, and do not change during execution. Normally, the facts/rules will be in a file of Prolog code which will be loaded during the Prolog session. Sometimes, you might want to add extra facts (or maybe even extra rules) to the procedure, during execution of a Prolog query, using assert/asserta/assertz", or maybe remove facts/rules using retract/retractall. To do this, you must declare the procedure to be dynamic. */
+
+  /* How to verify something */
+verify(S) :-
+   (yes(S) -> true ;
+    (no(S) -> fail ;
+     ask(S))).
+
+
+/* Undo all yes/no assertions */
+undo :- retract(yes(_)),fail. 
+undo :- retract(no(_)),fail.
+undo.
+
+
